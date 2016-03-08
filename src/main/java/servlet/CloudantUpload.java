@@ -1,5 +1,6 @@
-import java.io.*;
+import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -21,9 +22,9 @@ public class CloudantUpload extends HttpServlet
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	PrintWriter out = response.getWriter();
     	String jsonString = "";
-    	int addStat;
+    	int result;
+
     	try {
 			List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 			for (FileItem item : items) {
@@ -43,8 +44,9 @@ public class CloudantUpload extends HttpServlet
 					}
 					scanner.close();
 
-					addStat = db.addEntry(jsonString);
-					request.setAttribute("msg", "Entry Added!");
+					result = db.addEntry(jsonString);
+
+					request.setAttribute("msg", "Entry Added!; Response code "+result);
 					break;
 				}
 			}
