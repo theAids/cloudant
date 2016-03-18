@@ -23,7 +23,6 @@ public class CloudantUpload extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	String jsonString = "";
-    	int result;
 
     	try {
 			List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
@@ -44,9 +43,16 @@ public class CloudantUpload extends HttpServlet
 					}
 					scanner.close();
 
-					result = db.addEntry(jsonString);
+					db.addEntry(jsonString);
 
-					request.setAttribute("msg", "Entry Added!; Response code "+result);
+					try{
+						request.setAttribute("msg", db.getAll());
+					}catch(Exception e){
+						e.printStackTrace();
+						request.setAttribute("msg", e.getMessage());
+
+					}
+					
 					break;
 				}
 			}

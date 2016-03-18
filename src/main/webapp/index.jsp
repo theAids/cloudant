@@ -12,6 +12,8 @@
        
             <input type="submit" class="btn" value="Upload" />
     </form>
+    
+    <h3>Result: </h3>
      <% if (request.getAttribute("msg") != null) { %>
        	<div><%= request.getAttribute("msg") %></div>
     <% } %> 
