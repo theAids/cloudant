@@ -1,8 +1,6 @@
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Base64;
-import java.util.Base64.Encoder;
 
 import org.cloudfoundry.runtime.env.CloudEnvironment;
 
@@ -22,6 +20,8 @@ import java.io.InputStreamReader;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.apache.commons.codec.binary.Base64;
 
 
 
@@ -101,10 +101,8 @@ public class CloudantClientClass{
 
     String cred = username+":"+password;
 
-    Base64.Encoder enc = Base64.getEncoder();
-
     //encode username:password string for authentication
-    String encodedCred = new String(enc.encode(cred.getBytes()));
+    String encodedCred = new String(Base64.encodeBase64(cred.getBytes()));
     String authorization = "Basic "+encodedCred;
 
     //accessing all the documents in the books database
